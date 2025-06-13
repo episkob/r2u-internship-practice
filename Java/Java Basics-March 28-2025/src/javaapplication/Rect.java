@@ -39,3 +39,4 @@ public class Rect extends Shape {
         return super.toString() + ", a=" + a + ", b = " + b;
     }
 }
+

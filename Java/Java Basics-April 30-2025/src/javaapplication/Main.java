@@ -11,32 +11,32 @@ public class Main {
         // Create a server socket bound to port 30333
         ServerSocket server = new ServerSocket(30333);
 
-        // Wait for a client to connect (this is a blocking call)
+        // Wait for a client to connect (blocking call)
         Socket soc = server.accept();
 
-        // Output the client's IP address to the console
+        // Log client connection
         System.out.println("Client " + soc.getInetAddress().getHostAddress() + " connected");
 
-        // Create a buffered reader to read text input from the client
+        // Set up input stream to receive data from the client
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(soc.getInputStream())
         );
 
-        // Read one line sent by the client
+        // Read a single line of input from the client
         String str = reader.readLine();
 
-        // Print received data
+        // Log the received message
         System.out.println("Client sent: " + str);
 
-        // Create a buffered writer to send a response to the client
+        // Set up output stream to send response to the client
         BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(soc.getOutputStream())
         );
 
-        // Write the response back to the client
+        // Send back the received message with confirmation
         writer.write(str);
         writer.write(" - accepted");
-
+        writer.write("\n");       // Ensure client receives a proper line
+        writer.flush();           // Push the data out of the buffer
     }
-
 }

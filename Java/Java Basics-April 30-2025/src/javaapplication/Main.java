@@ -22,22 +22,36 @@ public class Main {
                 new InputStreamReader(soc.getInputStream())
         );
 
-        // Read a single line of input from the client
-        String str = reader.readLine();
-
-        // Log the received message
-        System.out.println("Client sent: " + str);
-
         // Set up output stream to send response to the client
         BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(soc.getOutputStream())
         );
 
-        // Send back the received message with confirmation
-        writer.write(str);
-        writer.write(" - accepted");
-        writer.write("\n");       // Ensure client receives a proper line
-        writer.flush();           // Push the data out of the buffer
+        String str;
 
+        // Loop to handle multiple messages until "close" is received
+        while (true) {
+            // Read a single line of input from the client
+            str = reader.readLine();
+            if ("close".equals(str)) break;
+
+            // Log the received message
+            System.out.println("Client sent: " + str);
+
+            // Send back the received message with confirmation
+            writer.write(str);
+            writer.write(" - accepted");
+            writer.write("\n");        // Ensure client receives a full line
+            writer.flush();            // Push data immediately to client
+        }
+
+        // Log connection closure
+        System.out.println("Client closed connection");
+
+        // Optional: release resources
+        reader.close();
+        writer.close();
+        soc.close();
+        server.close();
     }
 }

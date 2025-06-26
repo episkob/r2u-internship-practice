@@ -23,8 +23,6 @@ public class Main {
 
         String str = reader.readLine ();
         System.out.println ("Server sent: " + str);
-
-
     }
 
 }
